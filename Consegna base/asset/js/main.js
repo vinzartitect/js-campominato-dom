@@ -19,14 +19,17 @@ let arrayBombe = [];
 // array 16 bombe
 let sediciBombe = [];
 
+// conteggio click
+let conteggioClick = 0;
+
 // al click del bottone vogliamo cambiare la griglia in base alla difficoltà
 btn.addEventListener('click', function() {
 
     // reset del contenuto interno della griglia per nuova partita 
     grid.innerHTML = '';
+    
 
   
-    
     // a seconda del value della select, imposto il numero di celle
     let numeroCelle;
 
@@ -38,8 +41,9 @@ btn.addEventListener('click', function() {
         numeroCelle = 49;
     }
 
+    
 
-
+    array = [];
     // creazione ciclo for per numeri random
     for (y = 1; y < numeroCelle + 1; y++) {
         array.push(y);
@@ -54,6 +58,8 @@ btn.addEventListener('click', function() {
 
 
 
+    arrayBombe = [];
+    sediciBombe = [];
     // generare le bombe in base alla difficoltà
     // le bombe saranno sempre 16
     for ( k = 0; k < numeroCelle; k++) {
@@ -64,11 +70,12 @@ btn.addEventListener('click', function() {
     arrayBombe = shuffle( arrayBombe );
     console.log( `le bombe sono: ${ arrayBombe }` );
 
-    for ( bombe = 0; bombe < 16; bombe++ ) {
+    for ( bombe = 1; bombe <= 16; bombe++ ) {
         sediciBombe.push(arrayBombe[bombe]);
     }
 
     console.log( `le bombe sono: ${ sediciBombe }` );
+    console.log( `le bombe sono: ${ sediciBombe.sort(function(a, b){return a-b}) } ` );
 
 
 
@@ -85,26 +92,48 @@ btn.addEventListener('click', function() {
         // aggiungo la class box_X in base al numero di celle
         if (numeroCelle == 100) {
             box.classList.add('box_1')
+            box.id = array[i];
         } else if (numeroCelle == 81) {
             box.classList.add('box_2')
+            box.id = array[i];
         } else {
             box.classList.add('box_3')
+            box.id = array[i];
         } 
 
         // aggiungo il testo dei numeri in senso continuo, non random
         box.innerHTML = `<span>${array[i]}</span>`;
 
+        conteggioClick = 0;
+
         // funzione al click
         box.addEventListener('click', function () {
-
+            
             console.log( this.innerHTML);
 
             if ( sediciBombe.includes( parseInt(this.innerText) ) ){
                 this.classList.add('bomba');
-                alert(`hai perZo ah aaah!`);
+
+                // for ( let b = 0; b < arrayBombe.length; b++) {
+                //     document.getElementById(arrayBombe[b]).classList.add('bomba');
+                // }                
+
+                alert(`hai perZo ah aaah! hai cliccato ${conteggioClick} volte prima di perdere, peccato!`);
+                window.location = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
             } else {
                 this.classList.add('clicked');
+
+                // aumento del click
+                // equival conteggioClick = conteggioClick + 1 ;
+                conteggioClick++;
             }
+
+
+
+            if ( conteggioClick == ((numeroCelle+1)-arrayBombe[bombe]) ) {
+                alert(`wow sei un dragone! hai cliccato ${conteggioClick}!`);
+                window.location = "https://www.youtube.com/watch?v=04854XqcfCY";
+            } 
 
         });
 
