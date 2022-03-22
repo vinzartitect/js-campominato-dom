@@ -13,6 +13,12 @@ let box = document.createElement('div');
 // array di numeri casuali da 1 a 100
 let array = [];
 
+// array per le bombe
+let arrayBombe = [];
+
+// array 16 bombe
+let sediciBombe = [];
+
 // al click del bottone vogliamo cambiare la griglia in base alla difficoltà
 btn.addEventListener('click', function() {
 
@@ -48,6 +54,24 @@ btn.addEventListener('click', function() {
 
 
 
+    // generare le bombe in base alla difficoltà
+    // le bombe saranno sempre 16
+    for ( k = 0; k < numeroCelle; k++) {
+        arrayBombe.push(k);
+    }
+
+    console.log( `le bombe sono: ${ arrayBombe }` );
+    arrayBombe = shuffle( arrayBombe );
+    console.log( `le bombe sono: ${ arrayBombe }` );
+
+    for ( bombe = 0; bombe < 16; bombe++ ) {
+        sediciBombe.push(arrayBombe[bombe]);
+    }
+
+    console.log( `le bombe sono: ${ sediciBombe }` );
+
+
+
     // creo ciclo for per svilupare i box interni alla griglia
     for (let i = 0; i < numeroCelle; i++) {
 
@@ -72,7 +96,16 @@ btn.addEventListener('click', function() {
 
         // funzione al click
         box.addEventListener('click', function () {
-            this.classList.add('clicked');
+
+            console.log( this.innerHTML);
+
+            if ( sediciBombe.includes( parseInt(this.innerText) ) ){
+                this.classList.add('bomba');
+                alert(`hai perZo ah aaah!`);
+            } else {
+                this.classList.add('clicked');
+            }
+
         });
 
     }
